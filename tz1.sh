@@ -7,11 +7,11 @@ fi
 
 input_dir=$1
 output_dir=$2
+mkdir -p "$output_dir"
 
 copy_files() {
     local source_dir=$1
     local target_dir=$2
-    mkdir -p "$target_dir"
 
     find "$source_dir" -type f | while read file; do
         local base_name=$(basename "$file")
@@ -24,14 +24,6 @@ copy_files() {
 
         cp "$file" "$copy_path"
     done
-
-    for subdir in "$source_dir"/*/; do
-        if [ -d "$subdir" ]; then
-            copy_files "$subdir" "$target_dir"
-        fi
-    done
 }
 
 copy_files "$input_dir" "$output_dir"
-
-
